@@ -22,6 +22,8 @@ Este proyecto implementa un modelo de detección de casas utilizando **YOLOv8** 
 
 ## 2️⃣ Dataset
 El dataset proviene de **Roboflow**, organizado de la siguiente manera:
+
+```bash
 dataset_roboflow/
 ├── train/
 │ ├── images/
@@ -32,11 +34,14 @@ dataset_roboflow/
 └── test/
 ├── images/
 └── labels/
+```
 
 text
 - 🏷️ Todas las imágenes están anotadas con bounding boxes de la clase `home`
 - 📐 Resoluciones variables: `256x640` hasta `576x640`
 - 🏷️ Las etiquetas están en **formato YOLO**
+- 🏷️ Imagenes de entrenamiento **140 - 80%**
+- 🏷️ Imagenes valid **34 - 20%**
 - 🖼️ Cantidad de imágenes de prueba procesadas en inferencia: **10**
 - 🏠 Resultado promedio: **2–5 casas detectadas por imagen**
 
@@ -51,12 +56,16 @@ pip install ultralytics==8.4.19
 pip install torch==2.10.0+cu128
 pip install pandas numpy matplotlib
 Montaje de Google Drive (para dataset):
-
+```
+```bash
 python
 from google.colab import drive
 drive.mount('/content/drive')
-4️⃣ Estructura del proyecto
-text
+```
+---
+
+## 4️⃣ Estructura del proyecto
+```bash
 taller-yolo-deteccion-casas/
 ├── data.yaml                          # Configuración del dataset YOLO
 ├── models/                             # Modelos personalizados (si aplica)
@@ -72,13 +81,17 @@ taller-yolo-deteccion-casas/
         │       ├── best.pt                # Mejor modelo entrenado
         │       └── last.pt                 # Último modelo guardado
         └── predict/                       # Resultados de inferencia
-5️⃣ Entrenamiento del modelo
-Comando de entrenamiento:
+```
+---
 
-bash
+## 5️⃣ Entrenamiento del modelo
+***Comando de entrenamiento:***
+
+```bash
 !yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=50 imgsz=640 project=runs/detect name=train
-Detalles del entrenamiento:
 
+```
+***Detalles del entrenamiento:***
 🧠 Modelo base: yolov8n.pt (preentrenado en COCO)
 
 ⏱️ Épocas: 50
@@ -87,25 +100,49 @@ Detalles del entrenamiento:
 
 📂 Proyecto guardado en: runs/detect/train
 
-Resultados obtenidos:
+***Resultados obtenidos:***
 
-Métrica	Valor
-mAP50	0.85
-Precision	0.88
-Recall	0.81
-✅ Mejor modelo guardado en: runs/detect/train/weights/best.pt
+***Comportamiento de las métricas***
 
-6️⃣ Inferencia
-Inferencia en una imagen:
+***Box Loss:*** empezó ~1.447 (Epoch 1) → bajó progresivamente a ~0.908 (Epoch 35)
+Indica que el modelo aprende a predecir mejor las cajas.
 
-bash
-!python src/inferencia.py --weights runs/detect/train/weights/best.pt --source /content/imagen_prueba.jpg
+***Cls Loss:*** empezó ~2.653 → bajó a ~0.8346
+Las clases están aprendiendo a distinguirse, aunque tu dataset parece de 1 clase (nc=1), por lo que esta pérdida puede ser más sobre confianza que clasificación múltiple.
+
+***DFL Loss:*** comenzó ~1.603 → bajó a ~1.186
+Mejora la precisión de las coordenadas refinadas de las cajas.
+
+***mAP50 y mAP50-95***
+
+mAP50 empezó muy bajo (0.144 en Epoch 1) → mejoró hasta 0.614–0.579 en Epoch 33–34
+
+mAP50-95 sigue más bajo (≈0.3), lo que indica que el modelo es razonablemente bueno detectando objetos a IoU 0.5, pero aún necesita mejorar precisión más estricta (IoU > 0.5).
+
+***Precision (P) y Recall (R)***
+
+P: osciló entre 0.3 y 0.7, indica qué tan confiables son las predicciones positivas.
+
+R: llegó a ~0.66 en Epoch 32, significa que el modelo detecta ~66% de las casas reales.
+✅ Mejor modelo guardado en: 
+
+runs/detect/train10/weights/best.pt
+
+---
+
+## 6️⃣ Inferencia
+***Inferencia en una imagen:***
+
+```bash
+!python src/inferencia.py --weights runs/detect/train10/weights/best.pt --source /content/imagen_prueba.jpg
 Inferencia en una carpeta de imágenes:
+```
+```bash
+!python src/inferencia.py --weights runs/detect/train/weights10/best.pt --source /content/dataset_roboflow/test/images
 
-bash
-!python src/inferencia.py --weights runs/detect/train/weights/best.pt --source /content/dataset_roboflow/test/images
-Resultados obtenidos:
+```
 
+***Resultados obtenidos:***
 📁 Salida guardada en: runs/detect/predict
 
 ⚡ Velocidad promedio: 23 ms por imagen
@@ -114,26 +151,40 @@ Resultados obtenidos:
 
 🖼️ Imágenes generadas con bounding boxes
 
-7️⃣ Evaluación del modelo
-bash
+---
+
+## 7️⃣ Evaluación del modelo
+```bash
 !yolo task=detect mode=val model=runs/detect/train/weights/best.pt data=data.yaml
-Métricas de evaluación:
 
-mAP50 - Precisión media con IoU=0.50
+```
+***Métricas de evaluación:***
+```bash
 
-mAP50-95 - Precisión media en diferentes IoUs
+Class     Images  Instances  P      R      mAP50  mAP50-95
+all       29      77         0.72   0.584  0.608  0.349
+```
+***P (Precision)***: 0.72 → el porcentaje de predicciones correctas sobre todas las predicciones
 
-Precision - Proporción de detecciones correctas
+***R (Recall):*** 0.584 → el porcentaje de objetos detectados sobre todos los objetos reales
 
-Recall - Capacidad de detectar todas las casas presentes
+***mAP50:*** 0.608 → mean Average Precision a IOU=0.5
+
+***mAP50-95:*** 0.349 → promedio en varios thresholds de IOU
+
+💡  el modelo está moderadamente preciso, pero hay margen de mejora (sobre todo si corriges las imágenes corruptas).
 
 📊 Esta evaluación permite identificar falsos positivos y falsos negativos.
+<img width="1357" height="918" alt="image" src="https://github.com/user-attachments/assets/b36b8779-46ad-4749-9e2b-3b8c7e669533" />
 
-8️⃣ Exportación del modelo
-bash
+---
+
+## 8️⃣ Exportación del modelo
+```bash
 !yolo export model=runs/detect/train/weights/best.pt format=onnx
-Formatos soportados:
 
+```
+***Formatos soportados:***
 📦 ONNX - Intercambio entre frameworks
 
 📱 CoreML - Para dispositivos Apple
@@ -142,7 +193,9 @@ Formatos soportados:
 
 🔧 OpenVINO - Para Intel
 
-9️⃣ Recomendaciones y mejoras futuras
+---
+
+## 9️⃣ Recomendaciones y mejoras futuras
 📸 Incrementar el dataset para mejorar detección de casas pequeñas
 
 🔄 Data augmentation: rotación, escalado, flipping horizontal/vertical
@@ -162,14 +215,17 @@ Redmon et al., You Only Look Once: Unified, Real-Time Object Detection, CVPR 201
 
 Google Colab - Guía oficial
 
-📫 Contacto
+---
+
+### 📫 Contacto
 Autores:
 
-👤 Jheansel Beltrán - jheansel.beltran@example.com
+👤 Jheansel Beltrán 
 
-👤 Leonardo Fajardo - leonardo.fajardo@example.com
+👤 Leonardo Fajardo 
 
 📌 Proyecto académico - Taller de Visión Artificial y Detección de Objetos
+
 
 
 

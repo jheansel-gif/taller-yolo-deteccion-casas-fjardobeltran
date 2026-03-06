@@ -1,12 +1,9 @@
-from ultralytics import YOLO
+path: /content/drive/.shortcut-targets-by-id/1-zIxNE8KecruBVYgPscSJWWhMxIWiK2L/Taller2/dataset_roboflow
 
-model = YOLO("models/house-yolo.pt")
+train: train/images
+val: valid/images
+test: test/images
 
-results = model.predict(
-    source="/content/drive/.shortcut-targets-by-id/1-zIxNE8KecruBVYgPscSJWWhMxIWiK2L/Taller2/dataset_roboflow/test/images/",
-    imgsz=640,
-    conf=0.4,
-    save=True
-)
+nc: 1
 
-print("Inferencia completada")
+names: ["casa"]

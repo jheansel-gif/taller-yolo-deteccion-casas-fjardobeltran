@@ -64,7 +64,7 @@ Montaje de Google Drive (para dataset):
 from google.colab import drive
 drive.mount('/content/drive')
 
-4️⃣ Estructura del proyecto
+## 4️⃣ Estructura del proyecto
 
 taller-yolo-deteccion-casas/
 ├── data.yaml                 # Configuración del dataset YOLO
@@ -77,7 +77,7 @@ taller-yolo-deteccion-casas/
 └── runs/
     └── detect/               # Resultados de entrenamiento e inferencia
 
-5️⃣ Entrenamiento del modelo
+## 5️⃣ Entrenamiento del modelo
 Comando de entrenamiento:
 
 !yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=50 imgsz=640 project=runs/detect name=train
@@ -100,7 +100,7 @@ Precision: 0.88
 
 Recall: 0.81
 
-6️⃣ Inferencia
+## 6️⃣ Inferencia
 Inferencia en una imagen:
 
 !python src/inferencia.py --weights runs/detect/train/weights/best.pt --source /content/imagen_prueba.jpg
@@ -118,7 +118,7 @@ esultados:
 
 📦 Bounding boxes generadas para cada casa
 
-7️⃣ Evaluación del modelo
+## 7️⃣ Evaluación del modelo
 Se recomienda evaluar con:
 
 !yolo task=detect mode=val model=runs/detect/train/weights/best.pt data=data.yaml
@@ -126,12 +126,12 @@ Se recomienda evaluar con:
 Métricas obtenidas: mAP50, mAP50-95, Precision, Recall
 📊 Permite comparar desempeño y detectar falsos positivos/negativos.
 
-8️⃣ Exportación del modelo
+## 8️⃣ Exportación del modelo
 Opcional para producción o deployment:
 !yolo export model=runs/detect/train/weights/best.pt format=onnx
 Genera modelos en formatos ONNX, CoreML, TensorRT, entre otros.
 
-9️⃣ Recomendaciones y mejoras futuras
+## 9️⃣ Recomendaciones y mejoras futuras
 📸 Incrementar dataset para mejorar detección de casas pequeñas
 
 🔄 Aplicar data augmentation (rotación, escalado, flipping) para aumentar robustez
@@ -149,4 +149,5 @@ Redmon et al., You Only Look Once: Unified, Real-Time Object Detection, CVPR 201
 
 📫 Contacto
 Autor: Jheansel Hasler Beltrán
+
 

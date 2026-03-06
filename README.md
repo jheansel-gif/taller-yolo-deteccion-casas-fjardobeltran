@@ -181,6 +181,8 @@ Deteccion Correcta, aun en un caso aparentemente dificil donde dos casas parecen
 
 
 <img width="526" height="362" alt="image" src="https://github.com/user-attachments/assets/8e5a75da-1903-43c7-bab8-fef2a0754e08" />
+<img width="445" height="278" alt="image" src="https://github.com/user-attachments/assets/4529c288-ac3f-40de-84ae-5f64af39d9e7" />
+
 
 Deteccion incorrecta, remonta cuadros y elige una puerta como una casa, ademas divide dos pisos como dos casas
 
@@ -233,6 +235,7 @@ Autores:
 👤 Leonardo Fajardo 
 
 📌 Proyecto académico - Taller de Visión Artificial y Detección de Objetos
+
 
 
 

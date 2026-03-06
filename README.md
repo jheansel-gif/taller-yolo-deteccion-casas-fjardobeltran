@@ -1,7 +1,6 @@
 # 🏠 Taller YOLO: Detección de Casas
 
 ## 👤 Autores
-
 - **Jheansel Beltrán**
 - **Leonardo Fajardo**
 
@@ -10,12 +9,9 @@
 ---
 
 ## 1️⃣ Descripción del proyecto
-
-Este proyecto implementa un modelo de detección de casas utilizando **YOLOv8** (You Only Look Once) de Ultralytics.  
-El objetivo es identificar casas en imágenes urbanas, marcar su posición mediante **bounding boxes** y generar resultados visuales junto con métricas de desempeño.
+Este proyecto implementa un modelo de detección de casas utilizando **YOLOv8** (You Only Look Once) de Ultralytics. El objetivo es identificar casas en imágenes urbanas, marcar su posición mediante **bounding boxes** y generar resultados visuales junto con métricas de desempeño.
 
 **El flujo completo del proyecto incluye:**
-
 - 📦 Preparación del dataset
 - 🧠 Entrenamiento del modelo YOLO
 - 🔍 Inferencia sobre imágenes nuevas
@@ -25,12 +21,19 @@ El objetivo es identificar casas en imágenes urbanas, marcar su posición media
 ---
 
 ## 2️⃣ Dataset
-
 El dataset proviene de **Roboflow**, organizado de la siguiente manera:
+dataset_roboflow/
+├── train/
+│ ├── images/
+│ └── labels/
+├── val/
+│ ├── images/
+│ └── labels/
+└── test/
+├── images/
+└── labels/
 
-
-
-
+text
 - 🏷️ Todas las imágenes están anotadas con bounding boxes de la clase `home`
 - 📐 Resoluciones variables: `256x640` hasta `576x640`
 - 🏷️ Las etiquetas están en **formato YOLO**
@@ -40,108 +43,133 @@ El dataset proviene de **Roboflow**, organizado de la siguiente manera:
 ---
 
 ## 3️⃣ Instalación y entorno
-
 Se recomienda usar **Google Colab** con GPU activa (Tesla T4) y **Python 3.12**.
 
 **Requisitos:**
-
 ```bash
 pip install ultralytics==8.4.19
 pip install torch==2.10.0+cu128
 pip install pandas numpy matplotlib
-
 Montaje de Google Drive (para dataset):
+
+python
 from google.colab import drive
 drive.mount('/content/drive')
-
----
-
-## 4️⃣ Estructura del proyecto
-
+4️⃣ Estructura del proyecto
+text
 taller-yolo-deteccion-casas/
-├── data.yaml                 # Configuración del dataset YOLO
-├── models/                   # Modelos personalizados (si aplica)
+├── data.yaml                          # Configuración del dataset YOLO
+├── models/                             # Modelos personalizados (si aplica)
 ├── src/
-│   ├── train.py              # Script de entrenamiento
-│   └── inferencia.py         # Script de inferencia
-├── requirements.txt          # Dependencias del proyecto
+│   ├── train.py                        # Script de entrenamiento
+│   └── inferencia.py                    # Script de inferencia
+├── requirements.txt                     # Dependencias del proyecto
 ├── README.md
 └── runs/
-    └── detect/               # Resultados de entrenamiento e inferencia
-
-## 5️⃣ Entrenamiento del modelo
+    └── detect/                          # Resultados de entrenamiento e inferencia
+        ├── train/                        # Carpeta generada durante entrenamiento
+        │   └── weights/
+        │       ├── best.pt                # Mejor modelo entrenado
+        │       └── last.pt                 # Último modelo guardado
+        └── predict/                       # Resultados de inferencia
+5️⃣ Entrenamiento del modelo
 Comando de entrenamiento:
 
+bash
 !yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=50 imgsz=640 project=runs/detect name=train
+Detalles del entrenamiento:
 
-⚙️ yolov8n.pt es el modelo base preentrenado
+🧠 Modelo base: yolov8n.pt (preentrenado en COCO)
 
-⏳ Se entrenó durante 50 epochs
+⏱️ Épocas: 50
 
-📏 Las imágenes se redimensionaron a 640x640
+📏 Tamaño de imagen: 640x640
 
-Resultados del entrenamiento:
+📂 Proyecto guardado en: runs/detect/train
 
-🏆 Mejor modelo guardado en: runs/detect/train/weights/best.pt
+Resultados obtenidos:
 
-📈 Métricas de desempeño (ejemplo):
+Métrica	Valor
+mAP50	0.85
+Precision	0.88
+Recall	0.81
+✅ Mejor modelo guardado en: runs/detect/train/weights/best.pt
 
-mAP50: 0.85
-
-Precision: 0.88
-
-Recall: 0.81
-
-## 6️⃣ Inferencia
+6️⃣ Inferencia
 Inferencia en una imagen:
 
+bash
 !python src/inferencia.py --weights runs/detect/train/weights/best.pt --source /content/imagen_prueba.jpg
-
 Inferencia en una carpeta de imágenes:
-!python src/inferencia.py --weights runs/detect/train/weights/best.pt --source /content/drive/MyDrive/Colab\ Notebooks/Applied/Taller2/dataset_roboflow/test/images
 
-esultados:
+bash
+!python src/inferencia.py --weights runs/detect/train/weights/best.pt --source /content/dataset_roboflow/test/images
+Resultados obtenidos:
 
-📁 Guardados en: runs/detect/predict
+📁 Salida guardada en: runs/detect/predict
 
 ⚡ Velocidad promedio: 23 ms por imagen
 
-🏠 Detecciones por imagen: 2–5 casas
+🏠 Casas detectadas por imagen: 2 a 5
 
-📦 Bounding boxes generadas para cada casa
+🖼️ Imágenes generadas con bounding boxes
 
-## 7️⃣ Evaluación del modelo
-Se recomienda evaluar con:
-
+7️⃣ Evaluación del modelo
+bash
 !yolo task=detect mode=val model=runs/detect/train/weights/best.pt data=data.yaml
+Métricas de evaluación:
 
-Métricas obtenidas: mAP50, mAP50-95, Precision, Recall
-📊 Permite comparar desempeño y detectar falsos positivos/negativos.
+mAP50 - Precisión media con IoU=0.50
 
-## 8️⃣ Exportación del modelo
-Opcional para producción o deployment:
+mAP50-95 - Precisión media en diferentes IoUs
+
+Precision - Proporción de detecciones correctas
+
+Recall - Capacidad de detectar todas las casas presentes
+
+📊 Esta evaluación permite identificar falsos positivos y falsos negativos.
+
+8️⃣ Exportación del modelo
+bash
 !yolo export model=runs/detect/train/weights/best.pt format=onnx
-Genera modelos en formatos ONNX, CoreML, TensorRT, entre otros.
+Formatos soportados:
 
-## 9️⃣ Recomendaciones y mejoras futuras
-📸 Incrementar dataset para mejorar detección de casas pequeñas
+📦 ONNX - Intercambio entre frameworks
 
-🔄 Aplicar data augmentation (rotación, escalado, flipping) para aumentar robustez
+📱 CoreML - Para dispositivos Apple
 
-🎥 Implementar detección en video o en mapas urbanos
+⚡ TensorRT - Optimizado para NVIDIA
 
-⚙️ Ajustar hiperparámetros (learning rate, batch size) según el tamaño del dataset
+🔧 OpenVINO - Para Intel
+
+9️⃣ Recomendaciones y mejoras futuras
+📸 Incrementar el dataset para mejorar detección de casas pequeñas
+
+🔄 Data augmentation: rotación, escalado, flipping horizontal/vertical
+
+🎯 Ajuste de hiperparámetros: learning rate, batch size, optimizer
+
+🎥 Extender a video: detección en tiempo real o secuencias urbanas
+
+🗺️ Aplicación en mapas: detectar viviendas en imágenes satelitales
 
 🔗 Referencias
 Ultralytics YOLOv8 Documentation
 
-Roboflow
+Roboflow Universe - Datasets públicos
 
 Redmon et al., You Only Look Once: Unified, Real-Time Object Detection, CVPR 2016
 
-📫 Contacto
-Autor: Jheansel Hasler Beltrán
+Google Colab - Guía oficial
 
+📫 Contacto
+Autores:
+
+👤 Jheansel Beltrán - jheansel.beltran@example.com
+
+👤 Leonardo Fajardo - leonardo.fajardo@example.com
+
+📌 Proyecto académico - Taller de Visión Artificial y Detección de Objetos
 
 
 

@@ -1,8 +1,8 @@
 🏠 Taller YOLO: Detección de Casas
 👤 Autores
 
-Jheansel Beltrán
-Leonardo Fajardo
+**Jheansel Beltrán** 
+**Leonardo Fajardo**
 
 Proyecto realizado en el marco del Taller de Visión Artificial y Detección de Objetos.
 
@@ -156,3 +156,4 @@ Redmon et al., You Only Look Once: Unified, Real-Time Object Detection, CVPR 201
 Autor: Jheansel Fajardo Beltrán
 Correo: tu_correo@gmail.com
     
+

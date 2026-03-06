@@ -29,16 +29,6 @@ El objetivo es identificar casas en imágenes urbanas, marcar su posición media
 El dataset proviene de **Roboflow**, organizado de la siguiente manera:
 
 
-dataset_roboflow/
-├── train/
-│ ├── images/
-│ └── labels/
-├── val/
-│ ├── images/
-│ └── labels/
-└── test/
-├── images/
-└── labels/
 
 
 - 🏷️ Todas las imágenes están anotadas con bounding boxes de la clase `home`
@@ -151,6 +141,7 @@ Redmon et al., You Only Look Once: Unified, Real-Time Object Detection, CVPR 201
 
 📫 Contacto
 Autor: Jheansel Hasler Beltrán
+
 
 
 

@@ -64,6 +64,8 @@ Montaje de Google Drive (para dataset):
 from google.colab import drive
 drive.mount('/content/drive')
 
+---
+
 ## 4️⃣ Estructura del proyecto
 
 taller-yolo-deteccion-casas/
@@ -149,5 +151,6 @@ Redmon et al., You Only Look Once: Unified, Real-Time Object Detection, CVPR 201
 
 📫 Contacto
 Autor: Jheansel Hasler Beltrán
+
 
 

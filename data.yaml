@@ -1,0 +1,12 @@
+from ultralytics import YOLO
+
+model = YOLO("models/house-yolo.pt")
+
+results = model.predict(
+    source="/content/drive/.shortcut-targets-by-id/1-zIxNE8KecruBVYgPscSJWWhMxIWiK2L/Taller2/dataset_roboflow/test/images/",
+    imgsz=640,
+    conf=0.4,
+    save=True
+)
+
+print("Inferencia completada")

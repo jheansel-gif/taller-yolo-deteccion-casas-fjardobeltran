@@ -3,7 +3,7 @@ from ultralytics import YOLO
 def main():
 
     # Ruta al modelo entrenado
-    model = YOLO("/content/taller-yolo-deteccion-casas-fjardobeltran/runs/detect/train3/weights/best.pt")
+    model = YOLO("/content/taller-yolo-deteccion-casas-fjardobeltran/runs/detect/train10/weights/best.pt")
 
     # Carpeta con imágenes de prueba
     source = "/content/drive/MyDrive/Colab Notebooks/Applied/Taller2/dataset_roboflow/test/images"

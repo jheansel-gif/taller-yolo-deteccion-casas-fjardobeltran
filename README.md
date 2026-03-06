@@ -177,6 +177,14 @@ all       29      77         0.72   0.584  0.608  0.349
 📊 Esta evaluación permite identificar falsos positivos y falsos negativos.
 <img width="1357" height="918" alt="image" src="https://github.com/user-attachments/assets/b36b8779-46ad-4749-9e2b-3b8c7e669533" />
 
+Deteccion Correcta, aun en un caso aparentemente dificil donde dos casas parecen una 
+
+
+<img width="526" height="362" alt="image" src="https://github.com/user-attachments/assets/8e5a75da-1903-43c7-bab8-fef2a0754e08" />
+
+Deteccion incorrecta, remonta cuadros y elige una puerta como una casa
+
+
 ---
 
 ## 8️⃣ Exportación del modelo
@@ -225,6 +233,7 @@ Autores:
 👤 Leonardo Fajardo 
 
 📌 Proyecto académico - Taller de Visión Artificial y Detección de Objetos
+
 
 
 

@@ -6,7 +6,7 @@ from fastapi import FastAPI, File, Query, UploadFile
 from fastapi.responses import JSONResponse, StreamingResponse
 from ultralytics import YOLO
 
-from utils import (
+from .utils import (
     anotar_resultado,
     extraer_detecciones,
     guardar_upload_temporal,

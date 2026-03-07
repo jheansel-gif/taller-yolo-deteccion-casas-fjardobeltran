@@ -3,3 +3,7 @@ torch
 opencv-python
 matplotlib
 numpy
+fastapi
+uvicorn[standard]
+python-multipart
+pillow

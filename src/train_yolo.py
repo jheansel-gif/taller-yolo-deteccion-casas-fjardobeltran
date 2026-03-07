@@ -1,17 +1,18 @@
+from pathlib import Path
+
 from ultralytics import YOLO
 
+
 def main():
+    root = Path(__file__).resolve().parents[1]
+    data_yaml = root / "data.yaml"
 
-    # cargar modelo base
     model = YOLO("yolov8n.pt")
-
-    # entrenar usando dataset
     model.train(
-        data="/content/taller-yolo-deteccion-casas-fjardobeltran/data.yaml",
+        data=str(data_yaml),
         epochs=50,
         imgsz=640,
         batch=16,
-        device=0
     )
 
 if __name__ == "__main__":

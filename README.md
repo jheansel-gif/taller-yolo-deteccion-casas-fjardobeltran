@@ -227,6 +227,23 @@ Google Colab - Guía oficial
 
 ---
 
+## 🔟 API de inferencia con FastAPI
+
+Esta versión del proyecto expone el modelo YOLO mediante una API REST para:
+
+- cargar imágenes desde un cliente
+- ejecutar detección de casas
+- devolver resultados en JSON
+- devolver la imagen anotada
+
+### Instalación
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+
 ### 📫 Contacto
 Autores:
 

@@ -1,9 +1,7 @@
-path: /content/drive/.shortcut-targets-by-id/1-zIxNE8KecruBVYgPscSJWWhMxIWiK2L/Taller2/dataset_roboflow
-
+path: dataset_roboflow
 train: train/images
 val: valid/images
 test: test/images
 
 nc: 1
-
 names: ["casa"]

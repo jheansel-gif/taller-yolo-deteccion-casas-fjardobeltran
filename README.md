@@ -227,6 +227,66 @@ Google Colab - Guía oficial
 
 ---
 
+## 🔟 API de inferencia con FastAPI
+
+Esta versión del proyecto expone el modelo YOLO mediante una API REST para:
+
+- cargar imágenes desde un cliente
+- ejecutar detección de casas
+- devolver resultados en JSON
+- devolver la imagen anotada
+
+### 1️⃣1️⃣  Instalación
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+
+🚀 Instrucciones de Inicio
+
+Para poner en marcha los servicios de carga y clasificación de imágenes, sigue estos pasos una vez hayas descargado el repositorio:
+1. Ejecución del Servidor 💻
+
+Asegúrate de estar ubicado en la ruta raíz del proyecto y ejecuta el comando de activación:
+
+    Ruta de la carpeta: .../taller-yolo-deteccion-casas-fjardobeltran-dev/
+
+    Comando:
+    Bash
+    py -m uvicorn src.inferencia:app --reload
+
+2. Acceso a la Documentación 📄
+
+Una vez que los servicios estén activos, abre tu navegador y dirígete a la siguiente URL para interactuar con la API:
+
+👉 http://127.0.0.1:8000/docs
+
+    [!IMPORTANT]
+
+    Esta ruta puede variar. Por favor, verifica el verbose (mensajes en consola) durante la activación del servicio en el paso anterior para confirmar el puerto exacto.
+
+3. Prueba de Predicción 🏠
+
+Para realizar una detección, puedes utilizar el endpoint interactivo http://127.0.0.1:8000/docs#/:
+
+    Busca el endpoint POST /predict/image.
+
+    Carga la imagen que desees analizar.
+
+    Ejecuta la petición y descarga el resultado, el cual incluirá el recuadro de identificación de las casas.
+
+
+
+### Instalación
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+
 ### 📫 Contacto
 Autores:
 

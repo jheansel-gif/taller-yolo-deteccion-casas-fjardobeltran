@@ -242,6 +242,7 @@ Esta versión del proyecto expone el modelo YOLO mediante una API REST para:
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+```
 
 
 🚀 Instrucciones de Inicio
@@ -252,17 +253,20 @@ Para poner en marcha los servicios de carga y clasificación de imágenes, sigue
 Asegúrate de estar ubicado en la ruta raíz del proyecto y ejecuta el comando de activación:
 
     Ruta de la carpeta: .../taller-yolo-deteccion-casas-fjardobeltran-dev/
+```bash
 
     Comando:
     Bash
     py -m uvicorn src.inferencia:app --reload
+```
 
 2. Acceso a la Documentación 📄
 
 Una vez que los servicios estén activos, abre tu navegador y dirígete a la siguiente URL para interactuar con la API:
+```bash
 
 👉 http://127.0.0.1:8000/docs
-
+```
     [!IMPORTANT]
 
     Esta ruta puede variar. Por favor, verifica el verbose (mensajes en consola) durante la activación del servicio en el paso anterior para confirmar el puerto exacto.
@@ -285,6 +289,7 @@ Para realizar una detección, puedes utilizar el endpoint interactivo http://127
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+```
 
 
 ### 📫 Contacto
@@ -295,6 +300,7 @@ Autores:
 👤 Leonardo Fajardo 
 
 📌 Proyecto académico - Taller de Visión Artificial y Detección de Objetos
+
 
 
 
